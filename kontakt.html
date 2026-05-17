@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!-- Edina M.: kontakt.html — forma 6 polja, label, picture; validacija u JS (Edina B.) -->
+<html lang="bs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudentFlow | Kontakt</title>
+  <link rel="stylesheet" href="css/tptpstil.css" />
+</head>
+<body>
+  <a class="skip-link" href="#glavni">Preskoči na sadržaj</a>
+
+  <header class="site-header">
+    <div class="site-header__left">
+      <button class="icon-btn" id="menu-btn" type="button" aria-label="Otvori bočni meni" title="Meni">☰</button>
+      <a class="site-brand" href="index.html"><span class="site-brand__text">StudentFlow</span></a>
+    </div>
+    <nav class="main-nav" aria-label="Glavna navigacija">
+      <a class="main-nav__link" href="index.html">Početna</a>
+      <a class="main-nav__link" href="sadrzaj.html">Sadržaj</a>
+      <a class="main-nav__link main-nav__link--active" href="kontakt.html">Kontakt</a>
+      <a class="main-nav__link main-nav__link--external" href="https://github.com/edina-py/grupa-26" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
+    <div class="site-header__right">
+      <button class="ghost-btn theme-toggle" id="theme-toggle" type="button" aria-pressed="false" title="Prebaci tamni/svijetli mod">🌙 Tamni</button>
+      <a class="site-logo-link" href="index.html" title="StudentFlow">
+        <img class="site-logo-img" src="images/favicon.png" width="40" height="40" alt="Logotip StudentFlow" />
+      </a>
+    </div>
+  </header>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="Bočni meni alata" aria-hidden="true">
+    <div class="drawer-header">
+      <div class="drawer-title">Alati</div>
+      <button class="icon-btn" id="drawer-close" type="button" aria-label="Zatvori meni" title="Zatvori">✕</button>
+    </div>
+    <nav class="drawer-nav" aria-label="Brzi linkovi">
+      <a class="drawer-link" href="index.html">Početna</a>
+      <a class="drawer-link" href="sadrzaj.html">Sadržaj i blog</a>
+      <a class="drawer-link active" href="kontakt.html">Kontakt</a>
+    </nav>
+    <section class="drawer-section">
+      <h3 class="section-title">Motivacija</h3>
+      <div class="motivation-card motivation-card--fancy" id="motivation-card" aria-live="polite"></div>
+      <div class="row">
+        <button class="ghost-btn" id="card-prev" type="button">←</button>
+        <button class="ghost-btn" id="card-next" type="button">→</button>
+      </div>
+    </section>
+    <section class="drawer-section">
+      <h3 class="section-title">Bookmarkovi</h3>
+      <p class="hint drawer-hint">Sačuvaj trenutnu stranicu i skok (hash). Radi i na kontakt stranici.</p>
+      <div class="row row-wrap">
+        <button class="ghost-btn" id="bookmark-save-btn" type="button">Sačuvaj ovdje</button>
+        <button class="ghost-btn" id="bookmark-goto-btn" type="button">Idi na zadnji</button>
+      </div>
+      <ul class="bookmark-list" id="bookmark-list" aria-label="Lista bookmarkova"></ul>
+      <div class="hint" id="bookmark-hint" hidden></div>
+    </section>
+    <section class="drawer-section">
+      <h3 class="section-title">Historija sesija</h3>
+      <div class="table-wrap">
+        <table class="table" aria-label="Historija sesija u meniju">
+          <thead>
+            <tr><th>Datum</th><th>Ukupno</th><th>Mod</th><th></th></tr>
+          </thead>
+          <tbody id="history-tbody"></tbody>
+        </table>
+      </div>
+      <div class="row row-wrap" style="margin-top:10px;">
+        <button class="ghost-btn" id="clear-history-btn" type="button">Obriši sve</button>
+      </div>
+    </section>
+  </aside>
+
+  <main class="container contact-layout" id="glavni">
+    <section class="panel contact-panel">
+      <article>
+        <h1 class="h1 page-title">Kontaktirajte nas</h1>
+        <p class="lead">Pošaljite poruku timu StudentFlow — validacija je isključivo u JavaScriptu (bez HTML5 <code>required</code>).</p>
+
+        <div class="form-success" id="form-success" hidden role="status"></div>
+
+        <form class="form-grid" id="kontakt-form" novalidate autocomplete="off">
+          <div class="form-row form-row--2">
+            <div>
+              <label class="label" for="ime">Ime</label>
+              <input class="input" type="text" id="ime" name="ime" autocomplete="given-name" />
+              <div class="field-error" id="err-ime"></div>
+            </div>
+            <div>
+              <label class="label" for="prezime">Prezime</label>
+              <input class="input" type="text" id="prezime" name="prezime" autocomplete="family-name" />
+              <div class="field-error" id="err-prezime"></div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="label" for="email">Email</label>
+            <input class="input" type="text" id="email" name="email" autocomplete="email" />
+            <div class="field-error" id="err-email"></div>
+          </div>
+          <div class="form-row">
+            <label class="label" for="telefon">Telefon</label>
+            <input class="input" type="text" id="telefon" name="telefon" autocomplete="tel" placeholder="npr. 061-123-456" />
+            <div class="field-error" id="err-telefon"></div>
+          </div>
+          <div class="form-row">
+            <label class="label" for="tema">Tema upita</label>
+            <select class="input" id="tema" name="tema">
+              <option value="">— odaberite —</option>
+              <option value="pomoc">Pomoć oko aplikacije</option>
+              <option value="saradnja">Saradnja / predlog</option>
+              <option value="bug">Prijava problema</option>
+              <option value="ostalo">Ostalo</option>
+            </select>
+            <div class="field-error" id="err-tema"></div>
+          </div>
+          <div class="form-row">
+            <label class="label" for="poruka">Poruka</label>
+            <textarea class="input" id="poruka" name="poruka" rows="6"></textarea>
+            <div class="field-error" id="err-poruka"></div>
+          </div>
+          <div class="row row-wrap">
+            <button class="primary-btn" type="submit">Pošalji</button>
+            <button class="ghost-btn" type="button" id="form-reset">Reset</button>
+          </div>
+        </form>
+      </article>
+    </section>
+
+    <aside class="contact-aside panel" aria-label="Informacije o projektu">
+      <h2 class="h2 section-heading">O StudentFlow</h2>
+      <picture>
+        <source srcset="images/hug.webp" type="image/webp" />
+        <img src="images/hug.png" alt="Ilustracija podrške: leopard i koala u zagrljaju" class="contact-aside__img" loading="lazy" />
+      </picture>
+      <p class="lead">Relativni link na <a href="sadrzaj.html#blog">blog</a>. Apsolutni resurs: <a href="https://www.who.int/news-room/fact-sheets/detail/mental-health-strengthening-our-response" target="_blank" rel="noopener noreferrer">WHO — mentalno zdravlje</a>.</p>
+    </aside>
+  </main>
+
+  <footer class="footer footer--rich">
+    <div class="footer__authors">
+      <strong>Autori:</strong> Edina Mustafić, Edna Čorbadžić, Edina Brigić
+    </div>
+    <div class="footer__year">&copy; 2026 StudentFlow</div>
+    <div class="footer__social">
+      <a href="https://www.instagram.com/explore/tags/studentlife/" target="_blank" rel="noopener noreferrer">#studentlife</a>
+    </div>
+  </footer>
+
+  <script src="js/tptpskripte.js"></script>
+</body>
+</html>

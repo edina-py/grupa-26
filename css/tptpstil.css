@@ -1,0 +1,1511 @@
+/* ==========================================================================
+   StudentFlow — tptpstil.css (jedna datoteka za sve stranice)
+   Breakpointi: mobilni <600px | tablet 600–900px | desktop >900px
+   ========================================================================== */
+
+/* --- 4.2 CSS varijable (min. 5): boje, font, razmaci, tranzicija --- */
+:root {
+    --primarna: #4aa8cc;
+    --primarna-2: #7ec4e4;
+    --pozadina: #c5dce8;
+    --tekst: #122a38;
+    --kartica-bg: #d8ebf5; 
+    --font-base: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif; /* AI: system-ui osigurava da font savrseno odgovara operativnom sistemu korisnika 
+       (San Francisco na Apple uredjajima, Segoe UI na Windowsima, Ubuntu font na Linuxu)bez potrebe za ucitavanjem eksternih fajlova. */
+    --razmak: 16px;
+    --tranzicija: 0.28s ease;
+    --muted: rgba(18, 42, 56, 0.68);
+    --border: rgba(18, 42, 56, 0.14);
+    --shadow: 0 20px 50px rgba(18, 42, 56, 0.12);
+    --radius: 18px;
+    --ok: #22c55e;
+}
+
+/* Tamni mod: prepis varijabli na <html data-theme="dark"> (JS: applyTheme) */
+html[data-theme="dark"] {
+    --primarna: #64b5f6;
+    --primarna-2: #90caf9;
+    --pozadina: #0d1b2a;
+    --tekst: #e8f1ff;
+    --kartica-bg: #1b2838;
+    --muted: rgba(232, 241, 255, 0.68);
+    --border: rgba(144, 202, 249, 0.18);
+    --shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+}
+
+body.mode-stres {
+    --primarna: #5b8fd4;
+    --primarna-2: #7aa8e8;
+}
+
+body.mode-motivisan {
+    --primarna: #4aa8cc;
+    --primarna-2: #7ec4e4;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: radial-gradient(1200px 600px at 10% -10%, color-mix(in srgb, var(--primarna-2) 35%, transparent), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, color-mix(in srgb, var(--primarna) 22%, transparent), transparent 50%),
+        var(--pozadina); /* AI: Koriste se dva radial-gradienta za stvaranje "svjetlosnih mrlja" (glow efekta). 
+       Najbitniji detalj: funkcija `color-mix(in srgb, boja %, transparent)`. Ovo omogucava 
+       da se direktno u CSS-u boja "razvodni" (ucini transparentnom) na osnovu postojece varijable, 
+       bez potrebe za koristenjem necitkih RGBA kodova. */
+    color: var(--tekst);
+    font-family: var(--font-base);
+    transition: background-color var(--tranzicija), color var(--tranzicija);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+}
+
+code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.92em;
+}
+
+.skip-link { /* AI:"Preskoci na sadrzaj" je ovdje sakriven izvan vidljivog ekrana kako ne bi smetao vizuelnom dizajnu za korisnike sa misem. */
+    position: absolute;
+    left: -999px;
+    top: 8px;
+    background: var(--primarna);
+    color: #0a1a24;
+    padding: 8px 12px;
+    border-radius: 10px;
+    z-index: 200;
+    font-weight: 700;
+}
+
+.skip-link:focus {
+    left: 12px;
+}
+
+/* ----- Header ----- */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--pozadina) 88%, transparent);
+    backdrop-filter: blur(12px);
+}
+
+.site-header__left,
+.site-header__right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.site-brand {
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+}
+
+.site-brand__text {
+    background: linear-gradient(120deg, var(--primarna), var(--primarna-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Flexbox: glavna navigacija u headeru (zahtjev 4.2) */
+.main-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.main-nav__link { 
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--tekst);
+    opacity: 0.9;
+}
+
+.main-nav__link:hover {
+    border-color: var(--border);
+    background: color-mix(in srgb, var(--kartica-bg) 70%, transparent);
+}
+
+.main-nav__link--active { /* AI: Omogucava da dugme izgleda dinamicno (85% pozadine pomijesano sa 15% primarne boje) prilagodjavajuci se 
+       i svijetloj i tamnoj temi. */
+    border-color: color-mix(in srgb, var(--primarna) 55%, var(--border));
+    background: color-mix(in srgb, var(--kartica-bg) 85%, var(--primarna));
+}
+
+.main-nav__link--external {
+    opacity: 1;
+}
+
+.site-logo-link {
+    display: flex;
+    align-items: center;
+}
+
+.site-logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    background: var(--kartica-bg);
+}
+
+.badge {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+/* ----- Layout: filter + main + aside ----- */
+.page-shell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 1320px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 12px 24px;
+}
+
+.filter-nav {
+    position: sticky;
+    top: 58px;
+    z-index: 25;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0 4px;
+}
+
+.filter-nav__title {
+    width: 100%;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    font-weight: 800;
+    margin-bottom: 2px;
+}
+
+@media (min-width: 960px) {
+    .page-shell {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 12px 16px 32px;
+    }
+
+    .filter-nav {
+        position: sticky;
+        top: 64px;
+        flex-direction: column;
+        align-items: stretch;
+        width: 200px;
+        flex-shrink: 0;
+        padding-top: 8px;
+    }
+
+    .filter-nav__title {
+        width: auto;
+    }
+
+    .page-main-aside { /* AI: Eliminise potrebu za posebnim kalkulacijama sirine. */
+        flex: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+        gap: 18px;
+        align-items: start;
+    }
+}
+
+.page-main-aside {
+    width: 100%;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 8px 0 24px;
+}
+
+.container--main {
+    max-width: none;
+    margin: 0;
+    padding: 8px 0 0;
+}
+
+.filter-btn {
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--kartica-bg) 80%, transparent);
+    color: var(--tekst);
+    border-radius: 999px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: background var(--tranzicija), border-color var(--tranzicija), transform 0.15s ease;
+    text-align: left;
+}
+
+.filter-btn:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--primarna) 40%, var(--border));
+}
+
+.filter-btn--active {
+    border-color: color-mix(in srgb, var(--primarna) 65%, var(--border));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--primarna) 35%, var(--kartica-bg)), var(--kartica-bg));
+    box-shadow: var(--shadow);
+}
+
+.sidebar-aside {
+    background: var(--kartica-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    margin-top: 8px;
+}
+
+@media (min-width: 960px) {
+    .sidebar-aside {
+        margin-top: 0;
+        position: sticky;
+        top: 72px;
+    }
+}
+
+.aside-lead {
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+.map-wrap {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    aspect-ratio: 4 / 3; /* AI: Automatski odrzava razmjer slike ili mape na tacno 4:3 nezavisno od toga koliko se sirina elementa suzava ili siri na raznim uredjajima. */
+    background: color-mix(in srgb, var(--pozadina) 60%, #000);
+}
+
+.map-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ----- Hero & panels ----- */
+.hero {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 18px;
+    align-items: stretch;
+}
+
+.hero-text,
+.hero-media {
+    background: var(--kartica-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.55rem, 2.4vw, 2rem);
+    line-height: 1.12;
+}
+
+.h2 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.h3 {
+    margin: 0 0 10px;
+    font-size: 1rem;
+}
+
+.lead {
+    margin: 0 0 14px;
+    color: var(--muted);
+    line-height: 1.45;
+}
+
+.label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+.drawer-hint {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.row-wrap {
+    flex-wrap: wrap;
+}
+
+.input {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--pozadina) 55%, transparent);
+    color: var(--tekst);
+    outline: none;
+}
+
+.input:focus {
+    border-color: color-mix(in srgb, var(--primarna) 55%, var(--border));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primarna) 22%, transparent);
+}
+
+.icon-btn,
+.ghost-btn,
+.primary-btn,
+.secondary-btn {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: transparent;
+    color: var(--tekst);
+    cursor: pointer;
+    transition: transform var(--tranzicija), background var(--tranzicija), border-color var(--tranzicija);
+    font-weight: 600;
+}
+
+.icon-btn {
+    padding: 8px 10px;
+}
+
+.ghost-btn:hover {
+    background: color-mix(in srgb, var(--kartica-bg) 65%, var(--primarna));
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--primarna), var(--primarna-2));
+    color: #0a1a24;
+    border-color: color-mix(in srgb, var(--primarna) 70%, var(--border));
+}
+
+.primary-btn:hover {
+    transform: translateY(-1px);
+}
+
+.secondary-btn {
+    background: color-mix(in srgb, var(--kartica-bg) 75%, var(--pozadina));
+}
+
+.secondary-btn:hover {
+    transform: translateY(-1px);
+}
+
+.mode-choices {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+/* Hero: prirodna veličina slike (bez prisilnog cropa) */
+.hero-media picture {
+    display: block;
+    text-align: center;
+}
+
+.hero-img {
+    width: auto;
+    max-width: 100%;
+    max-height: 220px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    object-fit: contain;
+    background: transparent;
+}
+
+.name-form__row {
+    align-items: stretch;
+}
+
+.name-form__input {
+    flex: 0 1 auto;
+    width: 100%;
+    max-width: 180px;
+    min-width: 100px;
+}
+
+.mode-btn--active {
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--primarna) 55%, var(--border));
+    transform: translateY(-1px);
+}
+
+.media-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.panel {
+    margin-top: 18px;
+    background: var(--kartica-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.panel-heading {
+    margin-bottom: 6px;
+}
+
+.panel-lead {
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.timer {
+    display: grid;
+    gap: 8px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--pozadina) 45%, transparent);
+}
+
+.timer-time {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 900;
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums; /* AI:`tabular-nums` forsira fiksnu (jednaku) sirinu za sve brojeve.*/
+}
+
+.timer-sub {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.progress {
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--pozadina) 75%, transparent);
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primarna), var(--primarna-2));
+    width: 0%;
+    transition: width 0.25s ease;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.video-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    background: color-mix(in srgb, var(--pozadina) 40%, transparent);
+}
+
+.video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #0a1218;
+}
+
+/* Lokalni MP4 — HTML5 video (ne YouTube iframe) */
+.video-wrap .vibe-video__player,
+.video-wrap video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border: 0;
+    background: #000;
+}
+
+.video-wrap--idle .video-launch {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    background: #000;
+    display: block;
+}
+
+.video-launch__thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.88;
+}
+
+.video-launch__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--primarna) 85%, #fff);
+    color: #0a1a24;
+    display: grid;
+    place-items: center;
+    font-size: 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.video-launch__label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 4px #000;
+}
+
+.video-wrap--playing {
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.video-unmute {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    z-index: 2;
+    font-size: 0.78rem;
+    padding: 6px 10px;
+}
+
+.video-hint {
+    margin: 0 0 8px;
+}
+
+.list {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--muted);
+}
+
+.list li {
+    margin: 6px 0;
+}
+
+/* ----- Kartice: CSS Grid (1 / 2 / 3 kolone) — zahtjev desktop min. 3 ----- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+/* Tablet 600–900px: dvije kolone kartica */
+@media (min-width: 600px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktop >900px: tri kolone na index.html (#content-cards) */
+@media (min-width: 901px) {
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.cards-grid--blog {
+    margin-top: 8px;
+}
+
+.content-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--kartica-bg) 92%, var(--pozadina));
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: fade-in 0.55s ease both;
+}
+
+.content-card:nth-child(2) { /* AI: Naknadno uplitanje animacije.*/
+    animation-delay: 0.06s;
+}
+
+.content-card:nth-child(3) {
+    animation-delay: 0.12s;
+}
+
+.content-card::after { /* AI: Umjesto dodavanja border-a na :hover, koji bi pomjerio layout za nekoliko piksela, 
+       kreiramo lazni element (pseudo-element ::after). `inset: 0` razvlaci ga preko cijele kartice. */
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--tranzicija);
+}
+
+.content-card { 
+    position: relative;
+
+}
+
+.content-card:hover::after {
+    opacity: 1;
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--primarna) 35%, transparent);
+}
+
+.content-card:hover {
+    transform: translateY(-3px);
+}
+
+.content-card__img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+}
+
+.content-card__body {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.content-card__tag {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+}
+
+.content-card__title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+}
+
+.content-card__desc {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.45;
+    flex: 1;
+}
+
+.content-card__link {
+    align-self: flex-start;
+    margin-top: 4px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: color-mix(in srgb, var(--primarna) 70%, var(--tekst));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Todo */
+.todo-form {
+    margin-bottom: 10px;
+}
+
+.todo-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 280px;
+    overflow: auto;
+}
+
+.todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--pozadina) 35%, transparent);
+}
+
+.todo-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 900;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.todo-check--done {
+    background: var(--ok);
+    border-color: var(--ok);
+    color: #fff;
+}
+
+.todo-text {
+    flex: 1;
+    font-size: 0.92rem;
+    line-height: 1.35;
+}
+
+.todo-text--done {
+    text-decoration: line-through;
+    opacity: 0.65;
+}
+
+.todo-del {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 4px;
+}
+
+/* Footer */
+.footer {
+    padding: 22px 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer--rich {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.footer__social a {
+    color: color-mix(in srgb, var(--primarna) 55%, var(--tekst));
+    font-weight: 600;
+}
+
+.footer__sep {
+    margin: 0 6px;
+    opacity: 0.5;
+}
+
+/* Drawer */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 45;
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: min(380px, 92vw); /* AI: Funkcija `min()` bira manju od dvije ponudjene vrijednosti. */
+    transform: translateX(-104%); /* AI: `transform: translateX` gura element izvan ekrana za 104%. */
+    transition: transform 0.28s ease;
+    z-index: 50;
+    background: color-mix(in srgb, var(--pozadina) 94%, transparent);
+    border-right: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: auto;
+}
+
+/* Drawer: bočni meni na index, sadrzaj.html i kontakt.html */
+.drawer.open {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.drawer-title {
+    font-weight: 900;
+}
+
+.drawer-nav {
+    padding: 10px 14px;
+    display: grid;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.drawer-link {
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--kartica-bg) 70%, transparent);
+}
+
+.drawer-link.active {
+    border-color: color-mix(in srgb, var(--primarna) 55%, var(--border));
+}
+
+.drawer-section {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.motivation-card {
+    padding: 14px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    min-height: 108px;
+    display: grid;
+    gap: 8px;
+    align-content: start;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.motivation-card--fancy {
+    background: linear-gradient(145deg, color-mix(in srgb, var(--primarna) 18%, var(--kartica-bg)), var(--kartica-bg));
+    box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 22%, transparent);
+}
+
+html[data-theme="dark"] .motivation-card--fancy {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--primarna) 15%, transparent);
+}
+
+.motivation-card.fading {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.motivation-title {
+    font-weight: 900;
+    font-size: 1rem;
+}
+
+.motivation-body {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.motivation-emoji {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+.table-wrap {
+    overflow: auto;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    background: color-mix(in srgb, var(--kartica-bg) 85%, transparent);
+}
+
+.table th,
+.table td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+.table th {
+    color: var(--muted);
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.table tr:last-child td {
+    border-bottom: 0;
+}
+
+.btn-icon {
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--pozadina) 50%, transparent);
+    border-radius: 10px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-icon:hover {
+    border-color: color-mix(in srgb, var(--primarna) 45%, var(--border));
+}
+
+.bookmark-list {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bookmark-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--kartica-bg) 75%, transparent);
+    font-size: 12px;
+}
+
+.bookmark-list a {
+    flex: 1;
+    text-decoration: none;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Modal */
+.modal[hidden] {
+    display: none !important;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+}
+
+.modal-card {
+    width: min(520px, 96vw);
+    background: color-mix(in srgb, var(--pozadina) 94%, transparent);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-title {
+    font-weight: 900;
+}
+
+.breath-content {
+    padding: 16px 14px 18px;
+    display: grid;
+    gap: 10px;
+}
+
+.breath-text {
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.breath-timer {
+    font-size: 40px;
+    font-weight: 900;
+    color: color-mix(in srgb, var(--primarna) 70%, var(--tekst));
+}
+
+/* Blog full-screen overlay */
+.article-overlay[hidden] {
+    display: none !important;
+}
+
+.article-overlay {
+    position: fixed;
+    inset: 0; /* AI: `inset: 0` je moderna CSS skracenica koja zamjenjuje cetiri pravila odjednom:`top: 0; right: 0; bottom: 0; left: 0;`. */
+    z-index: 120;
+    background: var(--pozadina);
+    color: var(--tekst);
+    overflow: auto;
+}
+
+.article-overlay__inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 20px 48px;
+}
+
+.article-overlay__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+    position: sticky;
+    top: 0;
+    padding: 10px 0;
+    background: linear-gradient(180deg, var(--pozadina) 70%, transparent);
+    z-index: 2;
+}
+
+.article-overlay__hero {
+    width: 100%;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    margin-bottom: 18px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.article-overlay__content {
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.article-overlay__content h2 {
+    color: var(--tekst);
+    margin-top: 1.4em;
+    font-size: 1.15rem;
+}
+
+.article-overlay__content a {
+    color: color-mix(in srgb, var(--primarna) 65%, var(--tekst));
+    font-weight: 700;
+}
+
+/* sadrzaj.html: bookmark nav */
+.bookmark-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 0;
+    position: sticky;
+    top: 56px;
+    z-index: 20;
+    background: color-mix(in srgb, var(--pozadina) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+}
+
+.bookmark-bar a {
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--kartica-bg);
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.gallery img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.imagemap-wrap {
+    max-width: min(100%, 920px);
+    margin: 16px auto;
+}
+
+.imagemap-stage {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.imagemap-stage img {
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.imagemap-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* Nevidljive zone — samo kursor se mijenja (bez posvjetljivanja) */
+.imagemap-hotspot {
+    position: absolute;
+    pointer-events: auto;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: default;
+}
+
+.imagemap-hotspot[data-panel="disanje"] {
+    cursor: help;
+}
+
+.imagemap-hotspot[data-panel="tehnike"] {
+    cursor: pointer;
+}
+
+.imagemap-hotspot[data-panel="burnout"] {
+    cursor: not-allowed;
+}
+
+.imagemap-hotspot[data-panel="odmor"] {
+    cursor: cell;
+}
+
+.imagemap-hotspot:focus-visible {
+    outline: 2px solid var(--primarna);
+    outline-offset: 2px;
+}
+
+.imagemap-panel {
+    margin-top: 14px;
+    padding: 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--kartica-bg);
+    box-shadow: var(--shadow);
+}
+
+.imagemap-panel[hidden] {
+    display: none !important;
+}
+
+.imagemap-panel__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.imagemap-panel__body ul {
+    margin: 0.5em 0;
+    padding-left: 1.2em;
+    color: var(--muted);
+}
+
+.imagemap-panel__body h2 {
+    font-size: 1rem;
+    margin: 1em 0 0.4em;
+    color: var(--tekst);
+}
+
+.theme-toggle {
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+
+.badge--stat strong {
+    color: var(--primarna);
+}
+
+.stat-bump {
+    animation: pulsiranje 0.4s ease;
+}
+
+.contact-layout {
+    display: grid;
+    gap: var(--razmak);
+    padding-top: 20px;
+}
+
+@media (min-width: 901px) {
+    .contact-layout {
+        grid-template-columns: 1.4fr 1fr;
+        align-items: start;
+    }
+}
+
+.contact-aside__img {
+    width: auto;
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+    object-fit: contain;
+}
+
+.page-aside-tip {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px 20px;
+}
+
+.page-title,
+.section-heading {
+    margin-bottom: 10px;
+}
+
+.page-actions {
+    margin: 24px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.nested-list {
+    color: var(--muted);
+    line-height: 1.55;
+}
+
+/* Kontakt forma */
+.form-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.form-row {
+    display: grid;
+    gap: 6px;
+}
+
+.form-row--2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 640px) {
+    .form-row--2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.field-error {
+    font-size: 12px;
+    color: #dc2626;
+    min-height: 16px;
+}
+
+.input--error,
+.select--error,
+.textarea--error {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.15);
+}
+
+.form-success {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--ok) 55%, var(--border));
+    background: color-mix(in srgb, var(--ok) 12%, var(--kartica-bg));
+    color: var(--tekst);
+    font-weight: 700;
+}
+
+.form-success[hidden] { /* AI: Pravilo visokog prioriteta za HTML `hidden` atribut. Zbog toga sto CSS klase imaju visu "specificnost"
+       od defaultnih HTML pravila, ponekad browser ignorise `hidden` tag. Ova linija ga prisiljava da ga ispostuje. */
+    display: none;
+}
+
+/* Animacije: pulsiranje (Emergency) + fade-in (kartice) — zahtjev 4.2 */
+@keyframes pulsiranje { /* AI: Efekat pulsa za SOS dugme. Transform scale povecava element na 1.06x svoje velicine 
+       na polovini animacije (50%) i vraca na nulu, simulirajuci kucanje srca i privlaceci paznju na dugme. */
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.06);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.emergency-btn {
+    animation: pulsiranje 2.2s infinite;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Breakpoint 2: tablet 600–900px --- */
+@media (min-width: 600px) and (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- Breakpoint 1: mobilni <600px --- */
+@media (max-width: 599px) {
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-nav {
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .site-header {
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        font-size: 0.78rem;
+    }
+
+    .theme-toggle,
+    .badge--stat {
+        display: none;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* --- Breakpoint 3: desktop >900px --- */
+@media (min-width: 901px) {
+    .video-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+}

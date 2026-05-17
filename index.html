@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!-- Edina M.: semantika — header, nav, main, section, aside, footer; meta lang/charset/viewport -->
+<html lang="bs">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudentFlow | Početna</title>
+    <link rel="stylesheet" href="css/tptpstil.css" />
+</head>
+<body>
+    <a class="skip-link" href="#glavni-sadrzaj">Preskoči na sadržaj</a>
+
+    <header class="site-header">
+        <div class="site-header__left">
+            <button class="icon-btn" id="menu-btn" type="button" aria-label="Otvori bočni meni" title="Meni">☰</button>
+            <a class="site-brand" href="index.html" aria-label="StudentFlow početna">
+                <span class="site-brand__text">StudentFlow</span>
+            </a>
+        </div>
+
+        <nav class="main-nav" aria-label="Glavna navigacija">
+            <a class="main-nav__link main-nav__link--active" href="index.html">Početna</a>
+            <a class="main-nav__link" href="sadrzaj.html">Sadržaj</a>
+            <a class="main-nav__link" href="kontakt.html">Kontakt</a>
+            <a class="main-nav__link main-nav__link--external" href="https://github.com/edina-py/grupa-26" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+
+        <div class="site-header__right">
+            <button class="ghost-btn theme-toggle" id="theme-toggle" type="button" aria-pressed="false" title="Prebaci tamni/svijetli mod">🌙 Tamni</button>
+            <span class="badge" id="mode-badge">Motivisan</span>
+            <span class="badge badge--stat" title="Broj zabilježenih Pomodoro sesija">Sesije: <strong id="session-counter">0</strong></span>
+            <button class="ghost-btn emergency-btn" id="emergency-btn" type="button" title="Emergency: disanje">Emergency</button>
+            <a class="site-logo-link" href="index.html" title="StudentFlow">
+                <img class="site-logo-img" src="images/favicon.png" width="40" height="40" alt="Logotip StudentFlow" onerror="this.style.display='none'" />
+            </a>
+        </div>
+    </header>
+
+    <!-- Bočni drawer: bookmarkovi i motivacija (JS: openDrawer, saveBookmarkHere) -->
+    <div class="backdrop" id="backdrop" hidden></div>
+    <aside class="drawer" id="drawer" aria-label="Bočni meni alata" aria-hidden="true">
+        <div class="drawer-header">
+            <div class="drawer-title">Alati</div>
+            <button class="icon-btn" id="drawer-close" type="button" aria-label="Zatvori meni" title="Zatvori">✕</button>
+        </div>
+
+        <nav class="drawer-nav" aria-label="Brzi linkovi">
+            <a class="drawer-link active" href="index.html">Početna</a>
+            <a class="drawer-link" href="sadrzaj.html">Sadržaj i blog</a>
+            <a class="drawer-link" href="kontakt.html">Kontakt</a>
+        </nav>
+
+        <section class="drawer-section">
+            <h3 class="section-title">Motivacija</h3>
+            <div class="motivation-card motivation-card--fancy" id="motivation-card" aria-live="polite"></div>
+            <div class="row">
+                <button class="ghost-btn" id="card-prev" type="button">←</button>
+                <button class="ghost-btn" id="card-next" type="button">→</button>
+            </div>
+        </section>
+
+        <section class="drawer-section">
+            <h3 class="section-title">Bookmarkovi</h3>
+            <p class="hint drawer-hint">Sačuvaj trenutnu stranicu i skok (hash). Lista je u nastavku.</p>
+            <div class="row row-wrap">
+                <button class="ghost-btn" id="bookmark-save-btn" type="button">Sačuvaj ovdje</button>
+                <button class="ghost-btn" id="bookmark-goto-btn" type="button">Idi na zadnji</button>
+            </div>
+            <ul class="bookmark-list" id="bookmark-list" aria-label="Lista bookmarkova"></ul>
+            <div class="hint" id="bookmark-hint" hidden></div>
+        </section>
+
+        <section class="drawer-section">
+            <h3 class="section-title">Historija sesija</h3>
+            <div class="table-wrap">
+                <table class="table" aria-label="Historija sesija">
+                    <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Ukupno</th>
+                            <th>Mod</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-tbody"></tbody>
+                </table>
+            </div>
+            <div class="row row-wrap" style="margin-top:10px;">
+                <button class="ghost-btn" id="clear-history-btn" type="button">Obriši sve</button>
+            </div>
+        </section>
+    </aside>
+
+    <div class="page-shell">
+        <nav class="filter-nav" id="filter-nav" aria-label="Filter sadržaja">
+            <div class="filter-nav__title">Teme</div>
+            <button class="filter-btn filter-btn--active" type="button" data-filter="sve">Sve</button>
+            <button class="filter-btn" type="button" data-filter="fokus">Fokus i učenje</button>
+            <button class="filter-btn" type="button" data-filter="stres">Stres i opuštanje</button>
+            <button class="filter-btn" type="button" data-filter="pomodoro">Pomodoro i plan</button>
+            <button class="filter-btn" type="button" data-filter="zdravlje">Zdravlje i navike</button>
+            <button class="filter-btn" type="button" data-filter="alati">Alati i digitalna pažnja</button>
+        </nav>
+
+        <div class="page-main-aside">
+            <main class="container container--main" id="glavni-sadrzaj">
+                <!-- Hero: ime + modovi lijevo, ilustracija desno (kompaktne dimenzije) -->
+                <section class="hero">
+                    <div class="hero-text">
+                        <h1 class="h1">Pametno učenje, manje stresa.</h1>
+                        <p class="lead">Unesi ime, izaberi mod i iskoristi kartice ispod — filtriraju se klikom na lijevi meni.</p>
+
+                        <form class="name-form" id="name-form" autocomplete="off">
+                            <label class="label" for="name-input">Tvoje ime</label>
+                            <div class="row name-form__row">
+                                <input class="input name-form__input" id="name-input" name="name" placeholder="npr. Edina" maxlength="40" />
+                                <button class="primary-btn" type="submit">Spremi</button>
+                            </div>
+                            <div class="hint">Dobrodošli, <strong><span id="prikaz-imena">Student</span></strong>.</div>
+                        </form>
+
+                        <div class="mode-choices">
+                            <button class="primary-btn" id="mode-motivisan" type="button">Motivisan (baby blue)</button>
+                            <button class="secondary-btn" id="mode-stres" type="button">Pod stresom (dark blue)</button>
+                        </div>
+                    </div>
+
+                    <div class="hero-media">
+                        <picture>
+                            <source srcset="images/hug.webp" type="image/webp" />
+                            <img
+                                src="images/hug.png"
+                                alt="Ilustracija: leopard i koala u zagrljaju — prijateljstvo i smirenost pri učenju"
+                                class="hero-img"
+                                id="naslovna-slika"
+                                loading="eager"
+                            />
+                        </picture>
+                        
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <h2 class="h2 panel-heading">Savjeti i resursi</h2>
+                    <p class="lead panel-lead">Šest kartica — klik na filter prikazuje samo odgovarajuće (JavaScript).</p>
+                    <div class="cards-grid" id="content-cards" aria-live="polite"></div>
+                </section>
+
+                <section class="panel" id="pomodoro">
+                    <div class="panel-header">
+                        <h2 class="h2">Pomodoro</h2>
+                        <div class="row row-wrap">
+                            <button class="ghost-btn" id="timer-start" type="button">Start</button>
+                            <button class="ghost-btn" id="timer-pause" type="button">Pauza</button>
+                            <button class="ghost-btn" id="timer-reset" type="button">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="timer">
+                        <div class="timer-time" id="timer-display">25:00</div>
+                        <div class="timer-sub" id="timer-sub">Motivisan mod: 50/10 (duže sesije)</div>
+                        <div class="progress">
+                            <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Lokalni MP4: images/leopard.mp4 (motivisan), images/koala.mp4 (stres) — HTML5 video -->
+                    <div class="video-grid">
+                        <div class="video-card">
+                            <h3 class="h3">Trenutni vibe</h3>
+                            <div class="video-wrap video-wrap--playing" id="vibe-video-wrap" aria-label="Reprodukcija lokalnog videa za fokus"></div>
+                        </div>
+
+                        <div class="video-card todo-card">
+                            <h3 class="h3">Moja lista zadataka</h3>
+                            <form class="todo-form" id="todo-form" autocomplete="off">
+                                <label class="label" for="todo-input">Novi zadatak</label>
+                                <div class="row">
+                                    <input class="input" id="todo-input" type="text" maxlength="120" placeholder="npr. Pročitati str. 42–45" />
+                                    <button class="primary-btn" type="submit">Dodaj</button>
+                                </div>
+                            </form>
+                            <ul class="todo-list" id="todo-list" aria-label="Lista zadataka"></ul>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <aside class="sidebar-aside" aria-label="Bočna sekcija">
+                <h3 class="h3">Gdje učiti mirno — Tuzla</h3>
+                <p class="lead aside-lead">Mapa: Tuzla (apsolutni URL Google Maps embed).</p>
+                <div class="map-wrap">
+                    <iframe
+                        title="Google Maps — Tuzla, lokacija za učenje"
+                        src="https://www.google.com/maps?q=Tuzla+Bosnia+and+Herzegovina&output=embed"
+                        style="border:0"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                </div>
+                
+            </aside>
+        </div>
+    </div>
+
+    <div class="modal" id="breath-modal" aria-hidden="true" hidden>
+        <div class="modal-card" role="dialog" aria-label="Vježba disanja">
+            <div class="modal-header">
+                <div class="modal-title">Emergency: disanje</div>
+                <button class="icon-btn" id="breath-close" type="button" aria-label="Zatvori">✕</button>
+            </div>
+            <div class="breath-content">
+                <div class="breath-text" id="breath-text">Udahni</div>
+                <div class="breath-timer" id="breath-timer">4</div>
+                <div class="row row-wrap">
+                    <button class="primary-btn" id="breath-start" type="button">Start</button>
+                    <button class="ghost-btn" id="breath-stop" type="button">Stop</button>
+                </div>
+                <div class="hint">4 s udahni, 6 s izdahni, 6 ciklusa.</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer footer--rich">
+        <div class="footer__authors">
+            <strong>Autori:</strong> Edina Mustafić, Edna Čorbadžić, Edina Brigić
+        </div>
+        <div class="footer__year">&copy; 2026 StudentFlow</div>
+        <div class="footer__social">
+            <a href="https://www.instagram.com/explore/tags/studentlife/" target="_blank" rel="noopener noreferrer">#studentlife</a>
+            <span class="footer__sep">·</span>
+            <a href="https://www.youtube.com/results?search_query=pomodoro+technique" target="_blank" rel="noopener noreferrer">Pomodoro (YouTube)</a>
+        </div>
+    </footer>
+
+    <script src="js/tptpskripte.js"></script>
+</body>
+</html>

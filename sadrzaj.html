@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<!-- Edina M.: sadrzaj.html — blog, tabela, galerija, image map, ugniježđena lista -->
+<html lang="bs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentFlow | Sadržaj</title>
+    <link rel="stylesheet" href="css/tptpstil.css">
+</head>
+<body>
+    <a class="skip-link" href="#top">Preskoči na vrh</a>
+
+    <header class="site-header">
+        <div class="site-header__left">
+            <button class="icon-btn" id="menu-btn" type="button" aria-label="Otvori bočni meni" title="Meni">☰</button>
+            <a class="site-brand" href="index.html"><span class="site-brand__text">StudentFlow</span></a>
+        </div>
+        <nav class="main-nav" aria-label="Glavna navigacija">
+            <a class="main-nav__link" href="index.html">Početna</a>
+            <a class="main-nav__link main-nav__link--active" href="sadrzaj.html">Sadržaj</a>
+            <a class="main-nav__link" href="kontakt.html">Kontakt</a>
+            <a class="main-nav__link main-nav__link--external" href="https://github.com/edina-py/grupa-26" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+        <div class="site-header__right">
+            <button class="ghost-btn theme-toggle" id="theme-toggle" type="button" aria-pressed="false" title="Prebaci tamni/svijetli mod">🌙 Tamni</button>
+            <span class="badge badge--stat">Sesije: <strong id="session-counter">0</strong></span>
+            <a class="site-logo-link" href="index.html" title="StudentFlow">
+                <img class="site-logo-img" src="images/favicon.png" width="40" height="40" alt="Logotip StudentFlow aplikacije StudentFlow">
+            </a>
+        </div>
+    </header>
+
+    <div class="backdrop" id="backdrop" hidden></div>
+    <aside class="drawer" id="drawer" aria-label="Bočni meni alata" aria-hidden="true">
+        <div class="drawer-header">
+            <div class="drawer-title">Alati</div>
+            <button class="icon-btn" id="drawer-close" type="button" aria-label="Zatvori meni" title="Zatvori">✕</button>
+        </div>
+        <nav class="drawer-nav" aria-label="Brzi linkovi">
+            <a class="drawer-link" href="index.html">Početna</a>
+            <a class="drawer-link active" href="sadrzaj.html">Sadržaj i blog</a>
+            <a class="drawer-link" href="kontakt.html">Kontakt</a>
+        </nav>
+        <section class="drawer-section">
+            <h3 class="section-title">Motivacija</h3>
+            <div class="motivation-card motivation-card--fancy" id="motivation-card" aria-live="polite"></div>
+            <div class="row">
+                <button class="ghost-btn" id="card-prev" type="button">←</button>
+                <button class="ghost-btn" id="card-next" type="button">→</button>
+            </div>
+        </section>
+        <section class="drawer-section">
+            <h3 class="section-title">Bookmarkovi</h3>
+            <p class="hint drawer-hint">Sačuvaj trenutnu stranicu i skok (hash)</p>
+            <div class="row row-wrap">
+                <button class="ghost-btn" id="bookmark-save-btn" type="button">Sačuvaj ovdje</button>
+                <button class="ghost-btn" id="bookmark-goto-btn" type="button">Idi na zadnji</button>
+            </div>
+            <ul class="bookmark-list" id="bookmark-list" aria-label="Lista bookmarkova"></ul>
+            <div class="hint" id="bookmark-hint" hidden></div>
+        </section>
+        <section class="drawer-section">
+            <h3 class="section-title">Historija sesija</h3>
+            <div class="table-wrap">
+                <table class="table" aria-label="Historija sesija u meniju">
+                    <thead>
+                        <tr><th>Datum</th><th>Ukupno</th><th>Mod</th><th></th></tr>
+                    </thead>
+                    <tbody id="history-tbody"></tbody>
+                </table>
+            </div>
+            <div class="row row-wrap" style="margin-top:10px;">
+                <button class="ghost-btn" id="clear-history-btn" type="button">Obriši sve</button>
+            </div>
+        </section>
+    </aside>
+
+    <main class="container" id="top">
+        <nav class="bookmark-bar" aria-label="Bookmark navigacija po stranici">
+            <a href="#blog">Blog</a>
+            <a href="#tabela">Tabela tehnika</a>
+            <a href="#galerija">Galerija</a>
+            <a href="#mapa">Image map</a>
+            <a href="#ugnjezdeno">Lista</a>
+            <a href="#historija">Historija sesija</a>
+        </nav>
+
+        <section class="panel" id="blog">
+            <h1 class="h1 page-title">Blog: pametno učenje i stres</h1>
+            <p class="lead">Klik na karticu otvara članak preko cijelog ekrana. Zatvori strelicom „Nazad na blog”.</p>
+            <div class="cards-grid cards-grid--blog">
+                <article class="content-card">
+                    <img class="content-card__img" src="images/pomodoro_bez_panike.png" alt="Ilustracija: student koristi timer za Pomodoro tehniku" width="640" height="400" loading="lazy" />
+                    <div class="content-card__body">
+                        <div class="content-card__tag">Pomodoro</div>
+                        <h2 class="content-card__title">Pomodoro bez panike</h2>
+                        <p class="content-card__desc">Kako prilagoditi blokove kad si motivisan/a, a kako kad si pod pritiskom.</p>
+                        <button type="button" class="ghost-btn" data-open-article="pomodoro">Otvori članak</button>
+                    </div>
+                </article>
+                <article class="content-card">
+                    <img class="content-card__img" src="images/sta_se_desava_u_glavi.png" alt="Ilustracija: stres i misli tokom učenja" width="640" height="400" loading="lazy" />
+                    <div class="content-card__body">
+                        <div class="content-card__tag">Stres</div>
+                        <h2 class="content-card__title">Šta se dešava u glavi?</h2>
+                        <p class="content-card__desc">Zašto stres ometa pamćenje i koje brze strategije pomažu.</p>
+                        <button type="button" class="ghost-btn" data-open-article="stres">Otvori članak</button>
+                    </div>
+                </article>
+                <article class="content-card">
+                    <img class="content-card__img" src="images/san-i_konsolidacija.png" alt="Ilustracija: san i odmor za bolje pamćenje" width="640" height="400" loading="lazy" />
+                    <div class="content-card__body">
+                        <div class="content-card__tag">Zdravlje</div>
+                        <h2 class="content-card__title">San i konsolidacija</h2>
+                        <p class="content-card__desc">Kratki vodič za studente: san, ponavljanje i manje noćnog učenja.</p>
+                        <button type="button" class="ghost-btn" data-open-article="spavanje">Otvori članak</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel" id="tabela">
+            <h2 class="h2 section-heading">Tabela: tehnike fokusa (usporedba)</h2>
+            <p class="lead">Četiri kolone i pet redova podataka — za odabir tehnike prema raspoloženju.</p>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tehnika</th>
+                            <th>Trajanje fokusa</th>
+                            <th>Pauza</th>
+                            <th>Kad koristiti</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pomodoro klasični</td>
+                            <td>25 min</td>
+                            <td>5 min</td>
+                            <td>Početak dana, manji zadaci</td>
+                        </tr>
+                        <tr>
+                            <td>StudentFlow motivisan</td>
+                            <td>50 min</td>
+                            <td>10 min</td>
+                            <td>Duboki rad, već znaš cilj</td>
+                        </tr>
+                        <tr>
+                            <td>StudentFlow stres</td>
+                            <td>25 min</td>
+                            <td>5 min</td>
+                            <td>Visok pritisak, treba lak start</td>
+                        </tr>
+                        <tr>
+                            <td>Timeboxing</td>
+                            <td>60 min</td>
+                            <td>15 min</td>
+                            <td>Projekti sa jasnim krajem</td>
+                        </tr>
+                        <tr>
+                            <td>52/17 (studije)</td>
+                            <td>52 min</td>
+                            <td>17 min</td>
+                            <td>Kancelarijski / dugi blokovi</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel" id="galerija">
+            <h2 class="h2 section-heading">Galerija: vizuali za fokus</h2>
+            <p class="lead">Šest ilustracija iz projekta — teme učenja, stresa i navika.</p>
+            <div class="gallery">
+                <img src="images/jedna_stvar_jedan_ekran.png" alt="Savjet: jedna stvar i jedan ekran za fokus" width="400" height="400" loading="lazy" />
+                <img src="images/planiraj_blok_ne_dan.png" alt="Planiranje učenja po blokovima, ne cijelog dana odjednom" width="400" height="400" loading="lazy" />
+                <img src="images/disanje_kao_prekidac.png" alt="Disanje kao prekidač za smirenje pri stresu" width="400" height="400" loading="lazy" />
+                <img src="images/mikro_pauza_za_tijelo.png" alt="Mikro pauza za istezanje tijela za stolom" width="400" height="400" loading="lazy" />
+                <img src="images/telefon_u_drugi_prostor.png" alt="Telefon van dosega tokom učenja" width="400" height="400" loading="lazy" />
+                <img src="images/ucenje_aktivno_ne_pasivno.png" alt="Aktivno učenje umjesto pasivnog čitanja" width="400" height="400" loading="lazy" />
+            </div>
+        </section>
+
+        <!-- Image map: JS skalira zone; kursor se mijenja -->
+        <section class="panel" id="mapa">
+            <h2 class="h2 section-heading">Image map: četiri klikabilne zone</h2>
+            <p class="lead">Lijevi oblak (mozak) — burnout; desni oblak — odmor i san; osoba — disanje; laptop — tehnike učenja. Zone se skaliraju s ekranom (JS).</p>
+            <div class="imagemap-wrap">
+                <div class="imagemap-stage" id="imagemap-stage">
+                    <img
+                        src="images/stres_pri_ucenju.png"
+                        id="imagemap-img"
+                        width="1200"
+                        height="800"
+                        alt="Ilustracija studentkinje za stolom: lijevi oblak stresa i mozga, desni oblak odmora i sna, klikabilne zone na četiri dijela"
+                        usemap="#student-map"
+                        loading="lazy"
+                    />
+                    <div class="imagemap-overlay" aria-hidden="true">
+                        <button type="button" class="imagemap-hotspot" data-panel="burnout" aria-label="Lijevi oblak: opasnost burnouta"></button>
+                        <button type="button" class="imagemap-hotspot" data-panel="odmor" aria-label="Desni oblak: važnost odmora i sna"></button>
+                        <button type="button" class="imagemap-hotspot" data-panel="disanje" aria-label="Osoba: vježbe disanja"></button>
+                        <button type="button" class="imagemap-hotspot" data-panel="tehnike" aria-label="Laptop: tehnike učenja"></button>
+                    </div>
+                    <map name="student-map" id="student-map">
+                        <area shape="rect" coords="24,24,576,336" href="#mapa" alt="Lijevi oblak: burnout i preopterećenje" data-zone="burnout" />
+                        <area shape="rect" coords="624,24,1176,352" href="#mapa" alt="Desni oblak: odmor, san i zdrave navike" data-zone="odmor" />
+                        <area shape="rect" coords="264,304,696,760" href="#mapa" alt="Osoba: vježbe disanja" data-zone="osoba" />
+                        <area shape="rect" coords="696,416,1140,736" href="#mapa" alt="Laptop: tehnike učenja" data-zone="racunar" />
+                    </map>
+                </div>
+            </div>
+            <aside class="imagemap-panel" id="imagemap-panel" hidden aria-live="polite">
+                <div class="imagemap-panel__head">
+                    <h3 class="h3" id="imagemap-panel-title">Rezultat</h3>
+                    <button type="button" class="icon-btn" id="imagemap-panel-close" aria-label="Zatvori panel">✕</button>
+                </div>
+                <div class="imagemap-panel__body" id="imagemap-panel-body"></div>
+            </aside>
+        </section>
+
+        <section class="panel" id="ugnjezdeno">
+            <h2 class="h2 section-heading">Ugniježđena lista: plan učenja</h2>
+            <ul class="nested-list">
+                <li>
+                    <strong>Priprema</strong>
+                    <ul>
+                        <li>Skini distrakcije (telefon, notifikacije)</li>
+                        <li>Definiši jedan ishod za sljedeći blok</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Izvršenje</strong>
+                    <ul>
+                        <li>Timer start — jedna stvar</li>
+                        <li>Ako zapneš 10 min: smanji zadatak na mikro-korak</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Revizija</strong>
+                    <ul>
+                        <li>3 pitanja iz glave bez materijala</li>
+                        <li>Zapiši šta ide dalje sutra</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section class="panel" id="historija">
+            <h2 class="h2 section-heading">Historija sesija (iz aplikacije)</h2>
+            <article>
+                <div class="table-wrap">
+                    <table class="table" aria-label="Historija sesija">
+                        <thead>
+                            <tr>
+                                <th>Datum</th>
+                                <th>Ukupno</th>
+                                <th>Mod</th>
+                                <th>Korisnik</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-tbody-page"></tbody>
+                    </table>
+                </div>
+                <p class="hint">Sesije se dodaju na početnoj tokom Pomodoro sesije.</p>
+            </article>
+        </section>
+
+        <p class="page-actions">
+            <a class="ghost-btn" href="#top">Skoči na vrh</a>
+            <a class="ghost-btn" href="index.html#pomodoro">Nazad na Pomodoro</a>
+        </p>
+    </main>
+
+    <aside class="page-aside-tip" aria-label="Brzi savjeti">
+        <p class="hint">Relativni link: <a href="kontakt.html">Kontakt</a> · Apsolutni: <a href="https://www.youtube.com/results?search_query=study+techniques" target="_blank" rel="noopener noreferrer">YouTube — study techniques</a></p>
+    </aside>
+
+    <footer class="footer footer--rich">
+        <div class="footer__authors">
+            <strong>Autori:</strong> Edina Mustafić, Edna Čorbadžić, Edina Brigić
+        </div>
+        <div class="footer__year">&copy; 2026 StudentFlow</div>
+        <div class="footer__social">
+            <a href="https://www.youtube.com/results?search_query=mindfulness+student" target="_blank" rel="noopener noreferrer">Mindfulness za studente (YouTube)</a>
+        </div>
+    </footer>
+
+    <div class="article-overlay" id="article-overlay" hidden aria-hidden="true">
+        <div class="article-overlay__inner">
+            <div class="article-overlay__top">
+                <button type="button" class="ghost-btn" id="article-overlay-close">← Nazad na blog</button>
+            </div>
+            <h1 class="h1" id="article-overlay-title"></h1>
+            <img class="article-overlay__hero" id="article-overlay-hero" src="" alt="" width="1200" height="675" />
+            <div class="article-overlay__content" id="article-overlay-body"></div>
+        </div>
+    </div>
+
+    <script src="js/tptpskripte.js"></script>
+</body>
+</html>
